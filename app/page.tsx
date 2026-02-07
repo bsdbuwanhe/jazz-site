@@ -1,65 +1,128 @@
+"use client";
+
 import Image from "next/image";
+import { motion } from "framer-motion";
+
+// 动画配置：优雅的上浮
+const fadeInUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } 
+  }
+};
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="min-h-screen bg-jazz-black selection:bg-bluenote selection:text-white overflow-hidden">
+      
+      {/* 1. 顶部导航 */}
+      <nav className="fixed top-0 w-full z-50 flex justify-between items-center px-6 py-6 md:px-12 mix-blend-difference text-white">
+        <div className="text-2xl font-display uppercase tracking-wider">Blue Note</div>
+        <div className="hidden md:flex gap-8 text-xs font-bold tracking-[0.2em] uppercase">
+          {['Artists', 'Releases', 'History', 'Store'].map((item) => (
+            <a key={item} href="#" className="hover:text-bluenote transition-colors duration-300">
+              {item}
+            </a>
+          ))}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </nav>
+
+      {/* 2. Hero 区域 (核心视觉) */}
+      <section className="relative h-screen w-full flex items-center justify-center">
+        
+        {/* 背景图：黑白爵士现场 */}
+        <div className="absolute inset-0 z-0">
+          <Image 
+            src="https://images.unsplash.com/photo-1511192336575-5a79af67a629?q=80&w=2664&auto=format&fit=crop"
+            alt="Jazz Background"
+            fill
+            className="object-cover grayscale brightness-50 contrast-125"
+            priority
+          />
+          {/* 关键：Blue Note 蓝色滤镜遮罩 */}
+          <div className="absolute inset-0 bg-bluenote/40 mix-blend-multiply"></div>
         </div>
-      </main>
-    </div>
+
+        {/* 文字内容 */}
+        <div className="relative z-10 w-full max-w-7xl px-6 md:px-12 flex flex-col md:grid md:grid-cols-12 gap-8 mt-20">
+          
+          {/* 左上角小标 */}
+          <motion.div 
+            initial="hidden" animate="visible" variants={fadeInUp}
+            className="md:col-span-12 mb-4"
+          >
+            <p className="text-bluenote font-bold tracking-[0.3em] uppercase text-sm border-b border-bluenote/50 pb-2 inline-block">
+              The Finest In Jazz Since 1939
+            </p>
+          </motion.div>
+
+          {/* 巨大的主标题 (Anton字体) */}
+          <motion.div 
+            initial="hidden" animate="visible" variants={fadeInUp} transition={{ delay: 0.2 }}
+            className="md:col-span-9"
+          >
+            <h1 className="text-7xl md:text-[9rem] leading-[0.85] font-display uppercase text-off-white drop-shadow-2xl">
+              Uncompromising<br />
+              <span className="text-bluenote">Expression</span>
+            </h1>
+          </motion.div>
+
+          {/* 右下角描述与按钮 */}
+          <motion.div 
+            initial="hidden" animate="visible" variants={fadeInUp} transition={{ delay: 0.4 }}
+            className="md:col-span-3 flex flex-col justify-end pb-2"
+          >
+            <p className="text-gray-300 text-sm leading-relaxed mb-8 font-light tracking-wide">
+              Dedicated to recording the finest in jazz. From the boogaloo to the avant-garde.
+            </p>
+            <button className="bg-off-white text-jazz-black px-6 py-4 w-full md:w-auto font-bold uppercase tracking-widest text-xs hover:bg-bluenote hover:text-white transition-colors duration-300">
+              Explore Catalog
+            </button>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* 3. 专辑展示区 */}
+      <section className="py-24 bg-neutral-900 px-6 md:px-12">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-end justify-between mb-12 border-b border-gray-800 pb-6">
+             <h2 className="text-4xl md:text-5xl font-display uppercase text-off-white">Latest Vinyl</h2>
+             <span className="hidden md:block text-bluenote text-xs font-bold tracking-widest uppercase cursor-pointer hover:text-white transition-colors">View All</span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* 卡片 1 */}
+            <motion.div whileHover={{ y: -10 }} className="group cursor-pointer">
+              <div className="aspect-square relative mb-4 overflow-hidden bg-gray-800">
+                 <Image src="https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?w=800&q=80" alt="Album" fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
+              </div>
+              <h3 className="text-2xl font-display uppercase mb-1 group-hover:text-bluenote transition-colors">Midnight Blue</h3>
+              <p className="text-gray-500 uppercase tracking-widest text-[10px] font-bold">Kenny Burrell</p>
+            </motion.div>
+
+            {/* 卡片 2 (错位) */}
+            <motion.div whileHover={{ y: -10 }} className="group cursor-pointer md:mt-12">
+              <div className="aspect-square relative mb-4 overflow-hidden bg-gray-800">
+                 <Image src="https://images.unsplash.com/photo-1514525253440-b393452e8d26?w=800&q=80" alt="Album" fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
+              </div>
+              <h3 className="text-2xl font-display uppercase mb-1 group-hover:text-bluenote transition-colors">Blue Train</h3>
+              <p className="text-gray-500 uppercase tracking-widest text-[10px] font-bold">John Coltrane</p>
+            </motion.div>
+
+             {/* 卡片 3 */}
+            <motion.div whileHover={{ y: -10 }} className="group cursor-pointer">
+              <div className="aspect-square relative mb-4 overflow-hidden bg-gray-800">
+                 <Image src="https://images.unsplash.com/photo-1621360841013-c768371e93cf?w=800&q=80" alt="Album" fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
+              </div>
+              <h3 className="text-2xl font-display uppercase mb-1 group-hover:text-bluenote transition-colors">Moanin'</h3>
+              <p className="text-gray-500 uppercase tracking-widest text-[10px] font-bold">Art Blakey</p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+    </main>
   );
 }
